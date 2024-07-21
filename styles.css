@@ -9,8 +9,8 @@ body {
 
 #sidebar {
     width: 130px;
-    background-color: #e6e6e6;
-    padding: 20px 0;
+    background-color: #f8f8f8;
+    padding: 10px;
     height: 100vh;
     position: fixed;
     left: 0;
@@ -19,7 +19,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-bottom: 10px;
 }
 
 .sidebar-item {
@@ -27,6 +26,13 @@ body {
     padding: 10px;
     text-decoration: none;
     color: #000;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.sidebar-item:hover {
+    background-color: #e0e0e0;
+    border-radius: 4px;
 }
 
 #sign-out {
@@ -36,6 +42,7 @@ body {
     cursor: pointer;
     font-size: 14px;
     transition: all 0.3s ease;
+    margin-top: auto;
 }
 
 #sign-out:hover {
@@ -119,7 +126,7 @@ h1 {
 }
 
 #essay-title {
-    color: #800000;
+    color: #FF6600; /* YC orange */
     font-size: 24px;
     margin-bottom: 10px;
 }
@@ -133,7 +140,7 @@ h1 {
 }
 
 #reading-time {
-    margin-left: 10px;
+    margin-left: 10px; /* Ensure proper left margin */
     font-size: 14px;
     color: #999;
 }

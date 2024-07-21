@@ -187,11 +187,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const essayContent = document.getElementById('essay-content').innerText;
     const readingTimeElement = document.getElementById('reading-time');
 
+    console.log(essayContent);
+
     // Function to calculate reading time
     function calculateReadingTime(text) {
         const wordsPerMinute = 200; // Average reading speed
         const words = text.split(/\s+/).length;
+        console.log(`Words: ${words}`);
         const minutes = Math.ceil(words / wordsPerMinute);
+        console.log(`Minutes: ${minutes}`);
         return minutes;
     }
 
