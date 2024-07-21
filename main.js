@@ -14,6 +14,11 @@ supabase.from('essays').select('count', { count: 'exact' }).then(({ count, error
     }
 });
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+}
+
 async function fetchEssays() {
     console.log('Fetching essays...');
     try {
@@ -37,7 +42,7 @@ async function fetchEssays() {
             const li = document.createElement('li');
             li.className = 'essay-item';
             li.innerHTML = `
-                <a href="essay.html?id=${essay.id}" class="essay-link">${essay.title} (${essay.date})</a>
+                <a href="essay.html?id=${essay.id}" class="essay-link">${essay.title} (${formatDate(essay.date)})</a>
                 <button class="toggle-read ${essay.read ? 'read' : ''}" data-id="${essay.id}">✓</button>
             `;
             essayList.appendChild(li);

@@ -24,22 +24,6 @@ h1 {
     margin-bottom: 20px;
 }
 
-.banner {
-    background-color: #ffd699;
-    border: 1px solid #ffcc66;
-    padding: 10px;
-    margin-bottom: 20px;
-}
-
-.banner a {
-    color: #0000ff;
-    text-decoration: none;
-}
-
-.banner a:hover {
-    text-decoration: underline;
-}
-
 #essay-content {
     background-color: white;
     padding: 20px;

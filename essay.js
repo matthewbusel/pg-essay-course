@@ -5,6 +5,11 @@ const supabaseUrl = 'https://gixsylknwstdekjfvnlc.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpeHN5bGtud3N0ZGVramZ2bmxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE1ODAyOTQsImV4cCI6MjAzNzE1NjI5NH0.byzzFJaeGPf6lLaaKhhOZuaqSf2sya7QJvHq9jD0XEI';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+}
+
 async function fetchEssay() {
     const urlParams = new URLSearchParams(window.location.search);
     const essayId = urlParams.get('id');
@@ -34,7 +39,7 @@ async function fetchEssay() {
         // Update page content
         document.title = data.title;
         document.getElementById('essay-title').textContent = data.title;
-        document.getElementById('essay-date').textContent = data.date;
+        document.getElementById('essay-date').textContent = formatDate(data.date);
         document.getElementById('essay-content').innerHTML = data.content;
 
         const toggleButton = document.getElementById('toggle-read');
