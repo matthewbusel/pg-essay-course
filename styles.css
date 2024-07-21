@@ -29,6 +29,11 @@ body {
     color: #000;
 }
 
+.sidebar-item:hover {
+    color: #999;
+    transition: all 0.3s ease;
+}
+
 #sign-out {
     padding: 10px;
     padding-bottom: 30px;
@@ -120,7 +125,7 @@ h1 {
 }
 
 #essay-title {
-    color: #800000;
+    color: #FF6600;
     font-size: 24px;
     margin-bottom: 10px;
 }
