@@ -60,35 +60,20 @@ async function toggleRead(event) {
     console.log('Attempting to toggle read status for essay:', essayId, 'Current UI status:', currentStatus);
 
     try {
-        // Step 1: Read current status from database
-        const { data: readData, error: readError } = await supabase
+        // Update the status
+        const { data, error } = await supabase
             .from('essays')
-            .select('id, read')
-            .eq('id', essayId)
-            .single();
-
-        if (readError) {
-            console.error('Error reading essay data:', readError);
-            return;
-        }
-
-        console.log('Current database status for essay:', readData);
-
-        // Step 2: Update the status
-        const newStatus = !readData.read;
-        const { data: updateData, error: updateError } = await supabase
-            .from('essays')
-            .update({ read: newStatus })
+            .update({ read: !currentStatus })
             .eq('id', essayId);
 
-        if (updateError) {
-            console.error('Error updating read status:', updateError);
+        if (error) {
+            console.error('Error updating read status:', error);
             return;
         }
 
-        console.log('Update operation result:', updateData);
+        console.log('Update operation completed');
 
-        // Step 3: Verify the update
+        // Verify the update
         const { data: verifyData, error: verifyError } = await supabase
             .from('essays')
             .select('id, read')
@@ -102,7 +87,7 @@ async function toggleRead(event) {
 
         console.log('Verified essay status after update:', verifyData);
 
-        // Step 4: Update UI if database status changed
+        // Update UI based on verified status
         if (verifyData.read !== currentStatus) {
             button.classList.toggle('read');
             console.log('Status changed in database, updated UI');
@@ -129,13 +114,40 @@ try {
 }
 
 async function logTableStructure() {
-    const { data, error } = await supabase
-        .rpc('describe_table', { table_name: 'essays' });
-    
-    if (error) {
-        console.error('Error fetching table structure:', error);
-    } else {
-        console.log('Essays table structure:', data);
+    try {
+        // Fetch a single row to get column information
+        const { data, error } = await supabase
+            .from('essays')
+            .select('*')
+            .limit(1);
+
+        if (error) {
+            console.error('Error fetching sample data:', error);
+            return;
+        }
+
+        if (data && data.length > 0) {
+            console.log('Essays table structure:');
+            for (const [key, value] of Object.entries(data[0])) {
+                console.log(`${key}: ${typeof value}`);
+            }
+        } else {
+            console.log('No data found in the essays table');
+        }
+
+        // Fetch table information
+        const { data: tableInfo, error: tableError } = await supabase
+            .from('essays')
+            .select('count');
+
+        if (tableError) {
+            console.error('Error fetching table info:', tableError);
+        } else {
+            console.log('Total rows in essays table:', tableInfo.length);
+        }
+
+    } catch (error) {
+        console.error('Unexpected error in logTableStructure:', error);
     }
 }
 
