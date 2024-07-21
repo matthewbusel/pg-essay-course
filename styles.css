@@ -130,3 +130,12 @@ h1 {
 #toggle-read:hover {
     background-color: #e0e0e0;
 }
+
+#toggle-read.read {
+    background-color: #e0e0e0;
+    color: #999;
+}
+
+#toggle-read.read:hover {
+    background-color: #e0e0e0;
+}
