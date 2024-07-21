@@ -182,22 +182,4 @@ function setupSignOut() {
     }
 }
 
-// Add estimated reading time
-document.addEventListener('DOMContentLoaded', function() {
-    const essayContent = document.getElementById('essay-content').innerText;
-    const readingTimeElement = document.getElementById('reading-time');
-
-    // Function to calculate reading time
-    function calculateReadingTime(text) {
-        const wordsPerMinute = 200; // Average reading speed
-        const words = text.split(/\s+/).length;
-        const minutes = Math.ceil(words / wordsPerMinute);
-        return minutes;
-    }
-
-    // Calculate and display the reading time
-    const readingTime = calculateReadingTime(essayContent);
-    readingTimeElement.textContent = `Estimated reading time: ${readingTime} min`;
-});
-
 init();
