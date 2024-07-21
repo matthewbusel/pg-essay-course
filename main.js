@@ -18,6 +18,11 @@ async function fetchEssays() {
         return;
     }
 
+    if (!data || data.length === 0) {
+        console.log('No essays found in the database.');
+        return;
+    }
+
     console.log('Fetched data:', data);
 
     const essayList = document.getElementById('essay-list');
