@@ -1,7 +1,9 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
 // Initialize Supabase client
 const supabaseUrl = 'https://gixsylknwstdekjfvnlc.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpeHN5bGtud3N0ZGVramZ2bmxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE1ODAyOTQsImV4cCI6MjAzNzE1NjI5NH0.byzzFJaeGPf6lLaaKhhOZuaqSf2sya7QJvHq9jD0XEI';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function fetchEssay() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -11,6 +13,8 @@ async function fetchEssay() {
         console.error('No essay ID provided');
         return;
     }
+
+    console.log('Fetching essay with ID:', essayId);
 
     // Fetch essay from Supabase
     const { data, error } = await supabase
@@ -23,6 +27,8 @@ async function fetchEssay() {
         console.error('Error fetching essay:', error);
         return;
     }
+
+    console.log('Fetched essay data:', data);
 
     // Update page content
     document.title = data.title;
@@ -40,6 +46,8 @@ async function toggleRead(essayId) {
     const toggleButton = document.getElementById('toggle-read');
     const currentStatus = toggleButton.classList.contains('read');
 
+    console.log('Toggling read status for essay:', essayId);
+
     // Update read status in Supabase
     const { data, error } = await supabase
         .from('essays')
@@ -50,6 +58,8 @@ async function toggleRead(essayId) {
         console.error('Error updating read status:', error);
         return;
     }
+
+    console.log('Updated read status:', !currentStatus);
 
     // Toggle button appearance and text
     toggleButton.classList.toggle('read');

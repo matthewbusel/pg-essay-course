@@ -1,9 +1,12 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
 // Initialize Supabase client
 const supabaseUrl = 'https://gixsylknwstdekjfvnlc.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpeHN5bGtud3N0ZGVramZ2bmxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE1ODAyOTQsImV4cCI6MjAzNzE1NjI5NH0.byzzFJaeGPf6lLaaKhhOZuaqSf2sya7QJvHq9jD0XEI';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function fetchEssays() {
+    console.log('Fetching essays...');
     // Fetch essays from Supabase
     const { data, error } = await supabase
         .from('essays')
@@ -14,6 +17,8 @@ async function fetchEssays() {
         console.error('Error fetching essays:', error);
         return;
     }
+
+    console.log('Fetched data:', data);
 
     const essayList = document.getElementById('essay-list');
     data.forEach(essay => {
