@@ -52,76 +52,69 @@ async function fetchEssays() {
     }
 }
 
-async function toggleRead(event) {
+async function toggleRead(event) {async function toggleRead(event) {
     const button = event.target;
     const essayId = button.dataset.id;
     const currentStatus = button.classList.contains('read');
 
-    console.log('Toggling read status for essay:', essayId, 'Current status:', currentStatus);
+    console.log('Attempting to toggle read status for essay:', essayId, 'Current UI status:', currentStatus);
 
     try {
-        // First, let's check if the essay exists
-        const { data: checkData, error: checkError } = await supabase
+        // Step 1: Read current status from database
+        const { data: readData, error: readError } = await supabase
             .from('essays')
             .select('id, read')
             .eq('id', essayId)
             .single();
 
-        if (checkError) {
-            console.error('Error checking essay:', checkError);
+        if (readError) {
+            console.error('Error reading essay data:', readError);
             return;
         }
 
-        if (!checkData) {
-            console.error('Essay not found:', essayId);
-            return;
-        }
+        console.log('Current database status for essay:', readData);
 
-        console.log('Current essay data:', checkData);
-
-        // Now, update the read status
-        const { data, error } = await supabase
+        // Step 2: Update the status
+        const newStatus = !readData.read;
+        const { data: updateData, error: updateError } = await supabase
             .from('essays')
-            .update({ read: !currentStatus })
-            .eq('id', essayId)
-            .select();
+            .update({ read: newStatus })
+            .eq('id', essayId);
 
-        if (error) {
-            console.error('Error updating read status:', error);
+        if (updateError) {
+            console.error('Error updating read status:', updateError);
             return;
         }
 
-        console.log('Update operation result:', data);
+        console.log('Update operation result:', updateData);
 
-        if (data && data.length > 0) {
-            // Toggle button appearance
-            button.classList.toggle('read');
-            console.log('Toggled read status successfully');
-            await refreshEssayList(); // Refresh the essay list
-        } else {
-            console.error('No data returned after update. This might be due to RLS policies or the record not changing.');
-            
-            // Check if the status actually changed in the database
-            const { data: verifyData, error: verifyError } = await supabase
-                .from('essays')
-                .select('read')
-                .eq('id', essayId)
-                .single();
-            
-            if (verifyError) {
-                console.error('Error verifying update:', verifyError);
-            } else {
-                console.log('Verified essay status after update:', verifyData);
-                if (verifyData.read !== currentStatus) {
-                    // The update did occur, update UI
-                    button.classList.toggle('read');
-                    console.log('Status changed in database, updating UI');
-                    await refreshEssayList();
-                }
-            }
+        // Step 3: Verify the update
+        const { data: verifyData, error: verifyError } = await supabase
+            .from('essays')
+            .select('id, read')
+            .eq('id', essayId)
+            .single();
+
+        if (verifyError) {
+            console.error('Error verifying update:', verifyError);
+            return;
         }
+
+        console.log('Verified essay status after update:', verifyData);
+
+        // Step 4: Update UI if database status changed
+        if (verifyData.read !== currentStatus) {
+            button.classList.toggle('read');
+            console.log('Status changed in database, updated UI');
+        } else {
+            console.log('No change in database status, UI remains the same');
+        }
+
+        // Refresh the essay list
+        await refreshEssayList();
+
     } catch (error) {
-        console.error('Error in toggleRead:', error);
+        console.error('Unexpected error in toggleRead:', error);
     }
 }
 
@@ -134,3 +127,17 @@ try {
 } catch (error) {
     console.error('Error in initial fetchEssays:', error);
 }
+
+async function logTableStructure() {
+    const { data, error } = await supabase
+        .rpc('describe_table', { table_name: 'essays' });
+    
+    if (error) {
+        console.error('Error fetching table structure:', error);
+    } else {
+        console.log('Essays table structure:', data);
+    }
+}
+
+// Call this function when the page loads
+logTableStructure();
