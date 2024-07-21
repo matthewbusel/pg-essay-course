@@ -60,7 +60,26 @@ async function toggleRead(event) {
     console.log('Toggling read status for essay:', essayId, 'Current status:', currentStatus);
 
     try {
-        // Update read status in Supabase
+        // First, let's check if the essay exists
+        const { data: checkData, error: checkError } = await supabase
+            .from('essays')
+            .select('id, read')
+            .eq('id', essayId)
+            .single();
+
+        if (checkError) {
+            console.error('Error checking essay:', checkError);
+            return;
+        }
+
+        if (!checkData) {
+            console.error('Essay not found:', essayId);
+            return;
+        }
+
+        console.log('Current essay data:', checkData);
+
+        // Now, update the read status
         const { data, error } = await supabase
             .from('essays')
             .update({ read: !currentStatus })
@@ -72,7 +91,7 @@ async function toggleRead(event) {
             return;
         }
 
-        console.log('Updated essay data:', data);
+        console.log('Update operation result:', data);
 
         if (data && data.length > 0) {
             // Toggle button appearance
@@ -80,7 +99,26 @@ async function toggleRead(event) {
             console.log('Toggled read status successfully');
             await refreshEssayList(); // Refresh the essay list
         } else {
-            console.error('No data returned after update');
+            console.error('No data returned after update. This might be due to RLS policies or the record not changing.');
+            
+            // Check if the status actually changed in the database
+            const { data: verifyData, error: verifyError } = await supabase
+                .from('essays')
+                .select('read')
+                .eq('id', essayId)
+                .single();
+            
+            if (verifyError) {
+                console.error('Error verifying update:', verifyError);
+            } else {
+                console.log('Verified essay status after update:', verifyData);
+                if (verifyData.read !== currentStatus) {
+                    // The update did occur, update UI
+                    button.classList.toggle('read');
+                    console.log('Status changed in database, updating UI');
+                    await refreshEssayList();
+                }
+            }
         }
     } catch (error) {
         console.error('Error in toggleRead:', error);
