@@ -19,23 +19,27 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding-bottom: 10px;
 }
 
 .sidebar-item {
     display: block;
-    padding: 8px 20px;
-    color: #333;
+    padding: 10px;
     text-decoration: none;
-    font-size: 14px;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
+    color: #000;
 }
 
-.sidebar-item:hover {
-    background-color: #d6d6d6;
+#sign-out {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+#sign-out:hover {
+    background-color: #e0e0e0;
 }
 
 #content {
@@ -223,17 +227,4 @@ h1 {
     color: #999;
 }
 
-#sign-out {
-    margin-top: auto;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-#sign-out:hover {
-    background-color: #e0e0e0;
-}
+/* ... rest of the existing code ... */
