@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to calculate reading time
     function calculateReadingTime(text) {
         const wordsPerMinute = 200; // Average reading speed
-        const words = text.split(/\s+/).length;
+        const words = text.split(/\s+/).filter(word => word.length > 0).length; // Count words
         const minutes = Math.ceil(words / wordsPerMinute);
         return minutes;
     }

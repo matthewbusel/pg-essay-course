@@ -115,7 +115,7 @@ h1 {
 }
 
 #essay-title {
-    color: #FF6600; /* YC orange */
+    color: #800000;
     font-size: 24px;
     margin-bottom: 10px;
 }
@@ -129,10 +129,9 @@ h1 {
 }
 
 #reading-time {
-    margin-left: 0; /* Ensure no left margin */
+    margin-left: 10px;
     font-size: 14px;
     color: #999;
-    display: block; /* Ensure it takes up the full width */
 }
 
 #essay-content {
@@ -161,7 +160,6 @@ h1 {
 #toggle-read.read {
     background-color: #e0e0e0;
     color: #999;
-    cursor: default;
 }
 
 #toggle-read.read:hover {
@@ -227,6 +225,7 @@ h1 {
 
 #sign-out {
     margin-top: auto;
+    margin-bottom: 20px;
     padding: 10px;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
