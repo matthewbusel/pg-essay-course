@@ -55,15 +55,15 @@ async function fetchEssays() {
 async function toggleRead(event) {
     const button = event.target;
     const essayId = button.dataset.id;
-    const currentStatus = button.classList.contains('read');
+    const currentUIStatus = button.classList.contains('read');
 
-    console.log('Attempting to toggle read status for essay:', essayId, 'Current UI status:', currentStatus);
+    console.log('Attempting to toggle read status for essay:', essayId, 'Current UI status:', currentUIStatus);
 
     try {
-        // Update the status
+        // Update the status in the database (toggle it)
         const { data, error } = await supabase
             .from('essays')
-            .update({ read: !currentStatus })
+            .update({ read: !currentUIStatus })
             .eq('id', essayId);
 
         if (error) {
@@ -88,7 +88,7 @@ async function toggleRead(event) {
         console.log('Verified essay status after update:', verifyData);
 
         // Update UI based on verified status
-        if (verifyData.read !== currentStatus) {
+        if (verifyData.read !== currentUIStatus) {
             button.classList.toggle('read');
             console.log('Status changed in database, updated UI');
         } else {
