@@ -65,6 +65,18 @@ async function fetchEssays() {
         // Create a map of essay_id to read status
         const statusMap = new Map(userStatus.map(status => [status.essay_id, status.read]));
 
+        // Calculate progress
+        const totalEssays = essays.length;
+        const readEssays = userStatus.filter(status => status.read).length;
+        const progressPercentage = (readEssays / totalEssays) * 100;
+
+        // Update progress bar and text
+        const progressFill = document.querySelector('.progress-fill');
+        const progressText = document.querySelector('.progress-text');
+        
+        progressFill.style.width = `${progressPercentage}%`;
+        progressText.textContent = `${progressPercentage.toFixed(1)}% (${readEssays} of ${totalEssays} essays read)`;
+
         const essayList = document.getElementById('essay-list');
         essayList.innerHTML = ''; // Clear existing list
 
@@ -138,9 +150,39 @@ async function toggleRead(event) {
         button.classList.toggle('read');
         console.log('Status changed in database, updated UI');
 
+        // Update progress
+        await updateProgress();
+
     } catch (error) {
         console.error('Unexpected error in toggleRead:', error);
     }
+}
+
+async function updateProgress() {
+    const { data: essays, error: essaysError } = await supabase
+        .from('essays')
+        .select('count', { count: 'exact' });
+
+    const { data: readEssays, error: readError } = await supabase
+        .from('user_essay_status')
+        .select('count', { count: 'exact' })
+        .eq('user_id', user.id)
+        .eq('read', true);
+
+    if (essaysError || readError) {
+        console.error('Error updating progress:', essaysError || readError);
+        return;
+    }
+
+    const totalEssays = essays[0].count;
+    const readCount = readEssays[0].count;
+    const progressPercentage = (readCount / totalEssays) * 100;
+
+    const progressFill = document.querySelector('.progress-fill');
+    const progressText = document.querySelector('.progress-text');
+    
+    progressFill.style.width = `${progressPercentage}%`;
+    progressText.textContent = `${progressPercentage.toFixed(1)}% (${readCount} of ${totalEssays} essays read)`;
 }
 
 function setupSignOut() {

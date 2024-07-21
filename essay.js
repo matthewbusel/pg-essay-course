@@ -136,9 +136,36 @@ async function toggleRead(essayId) {
         toggleButton.classList.toggle('read');
         toggleButton.textContent = currentStatus ? 'Mark as Read' : 'Mark as Unread';
         console.log('Toggled read status successfully');
+
+        // Update progress
+        await updateProgress();
+
     } catch (error) {
         console.error('Error in toggleRead:', error);
     }
+}
+
+async function updateProgress() {
+    const { data: essays, error: essaysError } = await supabase
+        .from('essays')
+        .select('count', { count: 'exact' });
+
+    const { data: readEssays, error: readError } = await supabase
+        .from('user_essay_status')
+        .select('count', { count: 'exact' })
+        .eq('user_id', user.id)
+        .eq('read', true);
+
+    if (essaysError || readError) {
+        console.error('Error updating progress:', essaysError || readError);
+        return;
+    }
+
+    const totalEssays = essays[0].count;
+    const readCount = readEssays[0].count;
+    const progressPercentage = (readCount / totalEssays) * 100;
+
+    console.log(`Progress updated: ${progressPercentage.toFixed(1)}% (${readCount} of ${totalEssays} essays read)`);
 }
 
 function setupSignOut() {
