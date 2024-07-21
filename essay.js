@@ -183,18 +183,18 @@ function setupSignOut() {
 }
 
 // Add estimated reading time
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    await init(); // Make sure init() completes before calculating reading time
+    
     const essayContent = document.getElementById('essay-content').innerText;
     const readingTimeElement = document.getElementById('reading-time');
-
-    console.log(essayContent);
 
     // Function to calculate reading time
     function calculateReadingTime(text) {
         const wordsPerMinute = 200; // Average reading speed
-        const words = text.split(/\s+/).length;
+        const words = text.trim().split(/\s+/).length;
         console.log(`Words: ${words}`);
-        const minutes = Math.ceil(words / wordsPerMinute);
+        const minutes = Math.max(1, Math.ceil(words / wordsPerMinute));
         return minutes;
     }
 
