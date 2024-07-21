@@ -52,7 +52,7 @@ async function fetchEssays() {
     }
 }
 
-async function toggleRead(event) {async function toggleRead(event) {
+async function toggleRead(event) {
     const button = event.target;
     const essayId = button.dataset.id;
     const currentStatus = button.classList.contains('read');
