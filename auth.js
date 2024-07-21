@@ -12,6 +12,7 @@ async function signIn(email, password) {
 
     if (error) {
         console.error('Error signing in:', error.message);
+        alert('Error signing in: ' + error.message);
         return;
     }
 
@@ -27,26 +28,36 @@ async function signUp(email, password) {
 
     if (error) {
         console.error('Error signing up:', error.message);
+        alert('Error signing up: ' + error.message);
         return;
     }
 
     console.log('Signed up successfully:', data);
     alert('Please check your email for verification link before signing in.');
+    window.location.href = 'signin.html';
 }
 
-document.getElementById('signin-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    await signIn(email, password);
-});
+// Check which form is present on the page
+const signinForm = document.getElementById('signin-form');
+const signupForm = document.getElementById('signup-form');
 
-document.getElementById('signup-link').addEventListener('click', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    await signUp(email, password);
-});
+if (signinForm) {
+    signinForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        await signIn(email, password);
+    });
+}
+
+if (signupForm) {
+    signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        await signUp(email, password);
+    });
+}
 
 // Check if user is already signed in
 async function checkAuth() {
