@@ -1,7 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-const supabaseUrl = 'YOUR_SUPABASE_URL';
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
+const supabaseUrl = 'https://gixsylknwstdekjfvnlc.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpeHN5bGtud3N0ZGVramZ2bmxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE1ODAyOTQsImV4cCI6MjAzNzE1NjI5NH0.byzzFJaeGPf6lLaaKhhOZuaqSf2sya7QJvHq9jD0XEI';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function signIn(email, password) {
@@ -31,7 +31,7 @@ async function signUp(email, password) {
     }
 
     console.log('Signed up successfully:', data);
-    window.location.href = 'index.html';
+    alert('Please check your email for verification link before signing in.');
 }
 
 document.getElementById('signin-form').addEventListener('submit', async (e) => {
@@ -51,8 +51,8 @@ document.getElementById('signup-link').addEventListener('click', async (e) => {
 // Check if user is already signed in
 async function checkAuth() {
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-        window.location.href = 'signin.html';
+    if (user) {
+        window.location.href = 'index.html';
     }
 }
 
