@@ -95,8 +95,8 @@ h1 {
 }
 
 .toggle-read.read {
-    background-color: #4CAF50;
-    border-color: #4CAF50;
+    background-color: #FF6600; /* YC orange */
+    border-color: #FF6600; /* YC orange */
 }
 
 .toggle-read.read::after {
