@@ -97,14 +97,35 @@ async function toggleRead(event) {
     console.log('Attempting to toggle read status for essay:', essayId, 'Current UI status:', currentUIStatus);
 
     try {
-        // Update the status in the database (toggle it)
-        const { data, error } = await supabase
+        // First, check if the status already exists
+        const { data: existingStatus, error: checkError } = await supabase
             .from('user_essay_status')
-            .upsert({ 
-                user_id: user.id, 
-                essay_id: essayId, 
-                read: !currentUIStatus 
-            }, { onConflict: ['user_id', 'essay_id'] });
+            .select('*')
+            .eq('user_id', user.id)
+            .eq('essay_id', essayId)
+            .single();
+
+        if (checkError && checkError.code !== 'PGRST116') {
+            console.error('Error checking existing status:', checkError);
+            return;
+        }
+
+        let result;
+        if (existingStatus) {
+            // Update existing status
+            result = await supabase
+                .from('user_essay_status')
+                .update({ read: !currentUIStatus })
+                .eq('user_id', user.id)
+                .eq('essay_id', essayId);
+        } else {
+            // Insert new status
+            result = await supabase
+                .from('user_essay_status')
+                .insert({ user_id: user.id, essay_id: essayId, read: !currentUIStatus });
+        }
+
+        const { error } = result;
 
         if (error) {
             console.error('Error updating read status:', error);
