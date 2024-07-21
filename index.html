@@ -7,12 +7,21 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Paul Graham Essays</h1>
-    </header>
-    <main>
-        <ul id="essay-list"></ul>
-    </main>
+    <div id="sidebar">
+        <a href="index.html" class="sidebar-item">Home</a>
+        <a href="#" class="sidebar-item">Essays</a>
+        <a href="#" class="sidebar-item">Books</a>
+        <a href="#" class="sidebar-item">YC</a>
+        <!-- Add more sidebar items as needed -->
+    </div>
+    <div id="content">
+        <header>
+            <h1>Paul Graham Essays</h1>
+        </header>
+        <main>
+            <ul id="essay-list"></ul>
+        </main>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="main.js" type="module"></script>
 </body>
