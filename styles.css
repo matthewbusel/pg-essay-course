@@ -21,7 +21,11 @@ body {
     color: #333;
     text-decoration: none;
     font-size: 14px;
-    border-bottom: 1px solid #ccc;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
 }
 
 .sidebar-item:hover {
@@ -137,5 +141,30 @@ h1 {
 }
 
 #toggle-read.read:hover {
-    background-color: #e0e0e0;
+    background-color: #d0d0d0;
+}
+
+/* Styles for the sign-in page */
+#signin-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#signin-form input {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+#signin-form button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#signin-form button:hover {
+    background-color: #45a049;
 }
