@@ -195,7 +195,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const words = text.split(/\s+/).length;
         console.log(`Words: ${words}`);
         const minutes = Math.ceil(words / wordsPerMinute);
-        console.log(`Minutes: ${minutes}`);
         return minutes;
     }
 

@@ -200,25 +200,3 @@ function setupSignOut() {
 }
 
 init();
-
-// Add estimated reading time
-document.addEventListener('DOMContentLoaded', function() {
-    const essayContent = document.getElementById('essay-content').innerText;
-    const readingTimeElement = document.getElementById('reading-time');
-
-    console.log(essayContent);
-
-    // Function to calculate reading time
-    function calculateReadingTime(text) {
-        const wordsPerMinute = 200; // Average reading speed
-        const words = text.split(/\s+/).filter(word => word.length > 0).length; // Count words
-        console.log(`Words: ${words}`);
-        const minutes = Math.ceil(words / wordsPerMinute);
-        console.log(`Minutes: ${minutes}`);
-        return minutes;
-    }
-
-    // Calculate and display the reading time
-    const readingTime = calculateReadingTime(essayContent);
-    readingTimeElement.textContent = `Estimated reading time: ${readingTime} min`;
-});
