@@ -133,6 +133,7 @@ h1 {
     cursor: pointer;
     margin-top: 20px;
     font-size: 14px;
+    transition: all 0.3s ease;
 }
 
 #toggle-read:hover {
@@ -147,14 +148,6 @@ h1 {
 
 #toggle-read.read:hover {
     background-color: #e0e0e0;
-}
-
-#toggle-read::before {
-    content: "Mark as Read";
-}
-
-#toggle-read.read::before {
-    content: "Mark as Unread";
 }
 
 /* Styles for the sign-in page */
