@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.essay-item {
+    display: flex;
+    align-items: center;
+}
+
+.essay-link {
+    text-decoration: none;
+    color: #333;
+    margin-right: 10px;
+}
+
+.toggle-read {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.toggle-read.read {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#essay-content {
+    margin-bottom: 20px;
+}
+
+#toggle-read {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#toggle-read.read {
+    background-color: #f44336;
+}
